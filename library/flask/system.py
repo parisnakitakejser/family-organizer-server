@@ -4,13 +4,22 @@ from bson.json_util import dumps
 from library import init_mongo_conn
 from library.family import Family, Members, Pets
 
+
 class FlaskSystem:
     @staticmethod
     def status_verify():
-        return Response(dumps({
-            'status': 'OK',
-            'code': 200
-        }), mimetype='text/json'), 200
+        mongo_conn, client = init_mongo_conn()
+
+        if Family.count(mongo_conn=mongo_conn) > 0:
+            return Response(dumps({
+                'status': 'OK',
+                'code': 200
+            }), mimetype='text/json'), 200
+        else:
+            return Response(dumps({
+                'status': 'No Content',
+                'code': 204
+            }), mimetype='text/json'), 204
 
     @staticmethod
     def configuration_completed():

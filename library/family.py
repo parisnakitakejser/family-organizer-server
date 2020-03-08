@@ -6,6 +6,10 @@ class Family:
         pass
 
     @staticmethod
+    def count(mongo_conn: object) -> int:
+        return mongo_conn['family'].count({})
+
+    @staticmethod
     def insert(name: str, mongo_conn: object) -> ObjectId:
         result = mongo_conn['family'].insert_one({
             'name': name
